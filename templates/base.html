@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <!-- <script scr="{{ url_for('static', filename='js/clock.js') }}"> -->
+
+  </script>
+  <title>Good Morning</title>
+</head>
+
+<body>
+<div class="wrapper">
+{% block header %}{% endblock %}
+<h2 id='clock' onclick="toggleDiv('clock')"></h2>
+
+<p id='stopwatch'><span id="mins">00</span>:<span id="seconds">00</span>:<span id="tens">00</span></p>
+<button id="button-start">Start</button>
+<button id="button-stop">Stop</button>
+<button id="button-reset">Reset</button>
+
+{% block content %}{% endblock %}
+
+</div>
+<script>
+document.onkeydown = function(e) {
+  if (e.which == 67) {
+    toggleDiv('clock');
+  }
+  else if (e.which == 86) {
+    toggleDiv('stopwatch');
+  }
+  else if (e.which == 13) {
+    alert('You pressed Enter');
+  }
+};
+// Toggle
+function toggleDiv(id) {
+  var div = document.getElementById(id);
+  div.style.display = div.style.display == "none" ? "block" : "none";
+}
+</script>
+<script>
+window.onload = function () {
+  startClock();
+  // AM/ PM clock
+  function formatAMPM() {
+    const date = new Date();
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    document.getElementById('clock').innerHTML = strTime;
+    setTimeout(formatAMPM, 60000);
+  }
+  // Clock
+  function startClock () {
+      const today = new Date();
+      let h = today.getHours();
+      let m = today.getMinutes();
+      let s = today.getSeconds();
+      let ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12;
+      h = h ? h : 12;
+      m = checkTime(m);
+      s = checkTime(s);
+      let strTime = h + ":" + m + ":" + s + ' ' + ampm;
+      document.getElementById('clock').innerHTML =  strTime;
+      setTimeout(startClock, 1000);
+    }
+
+
+    function checkTime(i) {
+      if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+      return i;
+    }
+
+
+  // Stopwatch
+  var seconds = 00;
+  var tens = 00;
+  var mins = 00;
+  var appendTens = document.getElementById("tens")
+  var appendSeconds = document.getElementById("seconds")
+  var appendMins = document.getElementById("mins")
+  var buttonStart = document.getElementById('button-start');
+  var buttonStop = document.getElementById('button-stop');
+  var buttonReset = document.getElementById('button-reset');
+  var Interval;
+
+
+
+  buttonStart.onclick = function clickStart() {
+    clearInterval(Interval);
+    Interval = setInterval(startTimer, 10);
+  }
+
+  buttonStop.onclick = function() {
+    clearInterval(Interval);
+  }
+
+
+  buttonReset.onclick = function() {
+    clearInterval(Interval);
+    tens = "00";
+  	seconds = "00";
+    mins = "00";
+    appendTens.innerHTML = tens;
+  	appendSeconds.innerHTML = seconds;
+    appendMins.innerHTML = mins;
+  }
+
+
+
+  function startTimer () {
+    tens++;
+
+    if(tens <= 9){
+      appendTens.innerHTML = "0" + tens;
+    }
+
+    if (tens > 9){
+      appendTens.innerHTML = tens;
+
+    }
+
+    if (tens > 99) {
+      console.log("seconds");
+      seconds++;
+      appendSeconds.innerHTML = "0" + seconds;
+      tens = 0;
+      appendTens.innerHTML = "0" + 0;
+    }
+
+    if (seconds > 59) {
+      console.log("mins");
+      mins++;
+      appendMins.innerHTML = "0" + mins;
+      seconds = 0;
+      appendSeconds.innerHTML = "0" + 0;
+    }
+
+    if (seconds > 9){
+      appendSeconds.innerHTML = seconds;
+    }
+
+  }
+
+
+}
+</script>
+
+</body>
+</html>

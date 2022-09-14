@@ -1,0 +1,40 @@
+body {
+background:$base-color;
+font-family: Helvetica;
+height:100%;
+}
+
+.wrapper {
+width: 800px;
+margin: 30px auto;
+text-align:center;
+}
+
+h1 {
+  font-size: 40px;
+}
+h2 {
+  font-size: 30px;
+}
+/*
+#mins, #seconds, #tens{
+  font-size:2em;
+} */
+
+p {
+  font-size: 20px;
+}
+
+button{
+border: solid 1px $white;
+text-decoration:none;
+cursor:pointer;
+font-size:18px;
+padding:18px 10px;
+width:180px;
+margin: 10px;
+ outline: none;
+  &:hover{
+	border: solid 1px $white;
+	}
+}
