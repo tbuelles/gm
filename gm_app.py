@@ -9,7 +9,7 @@ app = Flask(__name__)
 def index():
     clock_label, day_label = update_clock()
     title = 'tagesschau 20:00 Uhr, 12.09.2022'
-    url = 'https://www.youtube.com/embed/yQuv1kIN7Io'
+    url = 'https://www.youtube.com/embed/yQuv1kIN7Io?'
     # title, url = tagesschau()
     return render_template('index.html', **locals())
 
